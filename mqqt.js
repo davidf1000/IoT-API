@@ -3,17 +3,21 @@ const client = mqtt.connect('mqtt://io.adafruit.com',{
   username:'davidfauzi',
   password:'0f7873c4c7bf48bb95e79d4112889e8e'
 });
-const topicsensor=client.options.username +'/f/TemperatureSensor';
+function sensor(name)
+{
+  return client.options.username +'/f/'+name;
+}
 
 client.on('connect',()=>
 {
   console.log("connected");
-  client.subscribe(topicsensor, function (err) {
+  client.subscribe(sensor('TemperatureSensor'), function (err) {
     if (!err) {
-      client.publish(topi csensor, "hello");
+      client.publish(sensor('TemperatureSensor'), "hello");
     }
   });
 });
+
 client.on('message',(topic,msg)=>
 {
   console.log("Published");
