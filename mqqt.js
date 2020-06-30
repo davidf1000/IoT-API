@@ -7,13 +7,14 @@ function sensor(name)
 {
   return client.options.username +'/f/'+name;
 }
+const topic=sensor('xsens');
 
 client.on('connect',()=>
 {
   console.log("connected");
-  client.subscribe(sensor('TemperatureSensor'), function (err) {
+  client.subscribe(topic, function (err) {
     if (!err) {
-      client.publish(sensor('TemperatureSensor'), "hello");
+      client.publish(topic, "123");
     }
   });
 });
@@ -25,3 +26,21 @@ client.on('message',(topic,msg)=>
   console.log(msg);
   console.log(msg.toString('utf-8'));
 });
+
+function subscribeAndListen(top)
+{
+  const topics=sensor(top);
+  client.subscribe(topics, function (err) {
+    if (!err) {
+      client.publish(topics, "123");
+    }
+  });
+  client.on('message',(topic,msg)=>
+{
+  console.log("Published");
+  console.log(topics);
+  console.log(msg);
+  console.log(msg.toString('utf-8'));
+});
+}
+subscribeAndListen("senss");

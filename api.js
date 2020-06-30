@@ -157,6 +157,37 @@ client.on('connect',()=>
   console.log("connected");
   
 });
+//Sementara test pakai 1 topic saja 
+const topic="sensormqtt"
+const topicroute=sensor(topic);
+//Subs 
+client.subscribe(topicroute, function (err) {
+  if (!err) {
+    // client.publish(topics, "123");
+    console.log("Subscribe ke %s berhasil !",topic);
+  }
+});
+//Wait new data arrives -> masukin ke database
+client.on('message',(topicroute,msg)=>
+{
+  // console.log(msg.toString('utf-8'));
+  const d = new Date();
+  const data = new dataModel({
+    data: msg.toString('utf-8'),
+    Sensor: topic,
+    time: d.getTime(),
+  });
+  data.save();
+
+});
+
+
+
+
+
+
+
+
 // client.on('message',(topic,msg)=>
 // {
 //   console.log("Published");
