@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const querystring = require('querystring');
 const mqtt=require ('mqtt');
+const path= require('path');
 //Mqtt Preparation
 const client = mqtt.connect('mqtt://io.adafruit.com',{
   username:'davidfauzi',
@@ -20,6 +21,16 @@ app.use(express.json({extended:false}));
 //Route
 app.use('/api/sensor',require('./routes/api/sensor') );
 app.use('/api/data',require('./routes/api/data') );
+
+if(process.env.NODE_ENV=== 'production')
+{
+  // stat folder
+  app.use(express.static('client/build'));
+
+  app.get('*',(req,res)=>{
+    res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+  })
+}
 
 app.listen(process.env.PORT || 5000, function (req, res) {
   console.log("Running in Port 3000");
