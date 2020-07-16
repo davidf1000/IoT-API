@@ -37,7 +37,7 @@ const Footer = () => {
     return (
         <Fragment>
             
-        <footer className={classes.footer}>
+        {/* <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
           Iot API
         </Typography>
@@ -45,7 +45,7 @@ const Footer = () => {
           Created by David Fauzi
         </Typography>
         <Copyright />
-      </footer>
+      </footer> */}
         </Fragment>
     )
 }
