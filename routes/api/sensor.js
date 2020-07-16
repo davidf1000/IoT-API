@@ -1,6 +1,36 @@
 const express = require('express');
 const DataSensor = require('../../Schema/DataSensor');
 const router = express.Router();
+// @route     GET api/sensor/all
+// @desc       Get detailed data sensors for all 
+// @access      Public
+
+router.get('/all',async (req, res) => {
+    try{
+        data= await DataSensor.find({});
+        // console.log(data);
+        //get Every unique set 
+        const set=data.map(data=>data.sensor).filter((v, i, a) => a.indexOf(v) === i);
+        console.log(set);
+        // data.filter(data.sensor===sensor).map(data=>data.time)
+        const dataArray = set.map(name=>data.filter(data=>data.sensor===name).map(data=>data.data).slice(0,8));
+        const dataDate= set.map(name=>data.filter(data=>data.sensor===name).map(data=>data.time).slice(0,8));
+        const newObject={
+            sensor:set,
+            data:dataArray,
+            date:dataDate
+        }
+        const newObject2=set.map((item,idx)=>({
+            sensor:item,
+            data:dataArray[idx],
+            date:dataDate[idx]
+        }));
+        res.json(newObject2);
+    } catch(err) {
+        console.error(err);
+        res.status(500).send('Server Error ! ');
+    }
+});
 // @route     GET api/sensor
 // @desc       Get All Data Sensor 
 // @access      Public
@@ -92,9 +122,9 @@ router.get('/:sensorname/la',async (req, res) => {
 // @desc       GET x latest Sensor Data by name
 // @access      Public
 
-router.get('/:sensorname/lat',async (req, res) => {
+router.get('/:sensorname/lat/:num',async (req, res) => {
     try{
-        const data=await DataSensor.find({sensor:req.params.sensorname}).sort('-time').limit(parseInt(req.query.num));
+        const data=await DataSensor.find({sensor:req.params.sensorname}).sort('-time').limit(parseInt(req.params.num));
         res.json(data);
     } catch(err) {
         console.error(err);
