@@ -1,7 +1,8 @@
 ![dashboard](https://user-images.githubusercontent.com/47879766/87785840-19e55980-c863-11ea-8e5b-7d0b65691c35.png)
-# Express-IoT-API
+# IoT-API
 IoT API is Webapp that is created to demonstrate simple Services for people to be able to implement their IoT application quickly and instantly,    mainly for testing purpose.
 As you can see, there's already a lot of IoT services that offers simple data posting and dashboard to save and display their data in the form of graph such as AWS IoT or Azure IoT.With this webapp , you can instantly HTTP Post your data from your microcontroller such as nodeMcu or Nucleo directly onto the server. The server then takes the data and store it in the database. User can access and view the data via Line Graph. You can name your own sensor and see the flow of the data from your IoT devices in realtime from IoT API.<br><br>
+Created using MERN Stack . Front end uses react with hooks for state management, ChartJs to plot data, and MaterialUi for basic component design 
 
 # Heroku
 This Project is deployed on free-tier heroku :
